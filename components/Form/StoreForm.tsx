@@ -15,6 +15,8 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useStoreModal } from "@/hooks/store-hooks";
+import axios from "axios";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z
@@ -31,8 +33,13 @@ export default function StoreForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const getStoreModer = useStoreModal();
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await axios.post("/api/stores", { name: values.name });
+      window.location.assign(`/${response.data.id}`);
+    } catch (error: any) {}
   }
 
   return (

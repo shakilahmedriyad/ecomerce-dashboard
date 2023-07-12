@@ -1,15 +1,12 @@
 "use client";
 import { useStoreModal } from "@/hooks/store-hooks";
-import prismadb from "@/lib/prismadb";
 import { useEffect } from "react";
 
 export default function Home() {
   const isOpen = useStoreModal((state) => state.isOpen);
   const onOpen = useStoreModal((state) => state.onOpen);
-
   useEffect(() => {
     if (!isOpen) onOpen();
-  }, [isOpen, onOpen]);
-
-  return <div></div>;
+  }, [isOpen]);
+  return null;
 }
