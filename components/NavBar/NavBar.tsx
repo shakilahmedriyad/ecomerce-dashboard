@@ -1,13 +1,24 @@
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, auth } from "@clerk/nextjs";
+import MainNav from "./MainNav";
+import StoreSwithcer from "./Store-chooser";
+import prismadb from "@/lib/prismadb";
+import { redirect } from "next/navigation";
 
-export default function NavBar() {
+export default async function NavBar() {
+  const { userId } = auth();
+  if (!userId) {
+    redirect("/sing-in");
+  }
+  const store = await prismadb.store.findMany({
+    where: {
+      userId,
+    },
+  });
   return (
-    <div className="flex px-5 py-7 justify-between">
-      <div className="flex space-x-3">
-        <div>button for store</div>
-        <div>button for create store</div>
-      </div>
-      <div>
+    <div className="flex px-5 py-7 border-b  items-center">
+      <StoreSwithcer items={store} />
+      <MainNav className="mx-6" />
+      <div className="flex ml-auto">
         <UserButton />
       </div>
     </div>
