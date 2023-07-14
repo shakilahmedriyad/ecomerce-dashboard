@@ -22,12 +22,9 @@ const Settings: React.FC<SettingsProsp> = async ({ params }) => {
     },
   });
 
-  console.log(params.storeId);
-
   if (!store) {
     redirect("/");
   }
-  console.log(store);
 
   return (
     <div className="p-10">
