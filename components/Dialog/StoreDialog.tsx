@@ -38,9 +38,7 @@ const StoreDialog: React.FC<ModalProps> = ({
             You have to create a store to continue
           </DialogDescription>
         </DialogHeader>
-        <div>
-          <StoreForm />
-        </div>
+        {children}
       </DialogContent>
     </Dialog>
   );
