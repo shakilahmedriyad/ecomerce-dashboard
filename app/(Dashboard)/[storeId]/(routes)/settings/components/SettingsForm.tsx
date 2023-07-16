@@ -19,6 +19,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import AlertModel from "@/components/Dialog/Alert-Model";
+import ApiAlertBar from "@/components/AlertBar/AlertBar";
+import useOrigin from "@/hooks/use-Origin";
 
 interface SettingsFromProps {
   store: Store;
@@ -36,6 +38,8 @@ export default function SettingsFrom({ store }: SettingsFromProps) {
   const params = useParams();
   const router = useRouter();
 
+  const origin = useOrigin();
+
   const form = useForm<settingsFromValue>({
     resolver: zodResolver(formSchema),
     defaultValues: store,
@@ -46,9 +50,10 @@ export default function SettingsFrom({ store }: SettingsFromProps) {
       setLoading(true);
       await axios.patch(`/api/stores/${params.storeId}`, values);
       router.refresh();
-      setLoading(false);
     } catch (error) {
       console.log("something went wrong at updating store name");
+      setLoading(false);
+    } finally {
       setLoading(false);
     }
   };
@@ -57,10 +62,12 @@ export default function SettingsFrom({ store }: SettingsFromProps) {
     try {
       setLoading(true);
       await axios.delete(`/api/stores/${params.storeId}`);
+      router.refresh();
       router.push("/");
-      setLoading(false);
     } catch (error) {
       console.log("something went wrong");
+      setLoading(false);
+    } finally {
       setLoading(false);
     }
   };
@@ -116,6 +123,12 @@ export default function SettingsFrom({ store }: SettingsFromProps) {
           </Button>
         </form>
       </Form>
+      <Separator className="my-6" />
+      <ApiAlertBar
+        title="NEXT_PUBLIC_API_URL"
+        descriptions={`${origin}/api/${params.storeId}`}
+        variant="public"
+      />
     </>
   );
 }
