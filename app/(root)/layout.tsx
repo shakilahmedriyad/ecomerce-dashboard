@@ -10,6 +10,7 @@ export default async function SetUpLayout({
 }) {
   const { userId } = auth();
   if (!userId) return <div>{children}</div>;
+
   const store = await prismadb.store.findFirst({
     where: {
       userId,
