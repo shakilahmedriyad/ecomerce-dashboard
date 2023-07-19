@@ -5,14 +5,13 @@ import BillBoardsForm from "./components/BillBoardForm";
 const BillBoardsSetting = async ({
   params,
 }: {
-  params: { billboardId: string };
+  params: { storeId: string };
 }) => {
-  const billBoard = await prismadb.billboard.findUnique({
+  const billBoard = await prismadb.billboard.findFirst({
     where: {
-      id: params.billboardId,
+      storeId: params.storeId,
     },
   });
-
   return (
     <div className="flex-col p-8 pt-16">
       <BillBoardsForm billboard={billBoard} />

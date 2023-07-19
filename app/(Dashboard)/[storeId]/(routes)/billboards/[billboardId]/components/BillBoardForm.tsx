@@ -59,7 +59,14 @@ export default function BillBoardsForm({ billboard }: BillBoardsProps) {
   const handleSubmit = async (values: { label: string }) => {
     try {
       setLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, values);
+      if (billboard) {
+        await axios.patch(
+          `/api/${params.storeId}/billboard/${billboard.id}`,
+          values
+        );
+      } else {
+        await axios.post(`/api/${params.storeId}/billboard`, values);
+      }
       router.refresh();
     } catch (error) {
       console.log("something went wrong at updating store name");
@@ -72,7 +79,7 @@ export default function BillBoardsForm({ billboard }: BillBoardsProps) {
   const handleDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`);
+      await axios.delete(`/api/${params.storeId}/billboard/${billboard?.id}`);
       router.refresh();
       router.push("/");
     } catch (error) {
