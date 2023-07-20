@@ -19,10 +19,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import AlertModel from "@/components/Dialog/Alert-Model";
-import ApiAlertBar from "@/components/AlertBar/AlertBar";
-import useOrigin from "@/hooks/use-Origin";
+
 import ImageUploader from "@/components/ImageUploader/ImageUploader";
-import { url } from "inspector";
 
 interface BillBoardsProps {
   billboard: Billboard | null;
@@ -39,7 +37,6 @@ export default function BillBoardsForm({ billboard }: BillBoardsProps) {
   const [open, setOpen] = useState(false);
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const title = billboard ? "Update Billboard" : "Create Billboard";
   const descriptions = billboard
@@ -59,7 +56,7 @@ export default function BillBoardsForm({ billboard }: BillBoardsProps) {
   const handleSubmit = async (values: { label: string }) => {
     try {
       setLoading(true);
-      if (billboard) {
+      if (billboard && params.billboardId !== "new") {
         await axios.patch(
           `/api/${params.storeId}/billboard/${billboard.id}`,
           values

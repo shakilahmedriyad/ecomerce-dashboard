@@ -5,11 +5,11 @@ import BillBoardsForm from "./components/BillBoardForm";
 const BillBoardsSetting = async ({
   params,
 }: {
-  params: { storeId: string };
+  params: { billboardId: string };
 }) => {
   const billBoard = await prismadb.billboard.findFirst({
     where: {
-      storeId: params.storeId,
+      storeId: params.billboardId,
     },
   });
   return (
