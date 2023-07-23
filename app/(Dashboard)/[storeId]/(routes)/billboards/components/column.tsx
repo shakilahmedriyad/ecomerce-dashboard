@@ -1,4 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
+import Action from "./action";
 
 export type BillboardDataTableType = {
   id: string;
@@ -14,5 +15,9 @@ export const BillboardColumns: ColumnDef<BillboardDataTableType>[] = [
   {
     accessorKey: "createdAt",
     header: "CreatedAt",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <Action data={row.original} />,
   },
 ];

@@ -64,6 +64,7 @@ export default function BillBoardsForm({ billboard }: BillBoardsProps) {
       } else {
         await axios.post(`/api/${params.storeId}/billboard`, values);
       }
+      router.push(`/${params.storeId}/billboards`);
       router.refresh();
     } catch (error) {
       console.log("something went wrong at updating store name");

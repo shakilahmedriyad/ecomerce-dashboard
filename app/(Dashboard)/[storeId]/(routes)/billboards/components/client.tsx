@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { BillboardColumns, BillboardDataTableType } from "./column";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/Table/DataTable";
+import ApiAlertBar from "@/components/AlertBar/AlertBar";
+import useOrigin from "@/hooks/use-Origin";
 
 interface ClientBillboardProps {
   billboards: Billboard[];
@@ -17,6 +19,7 @@ interface ClientBillboardProps {
 const ClientBillboard: React.FC<ClientBillboardProps> = ({ billboards }) => {
   const param = useParams();
   const router = useRouter();
+  const origin = useOrigin();
 
   const billboardsColumData: BillboardDataTableType[] = billboards.map(
     (item) => {
@@ -44,7 +47,37 @@ const ClientBillboard: React.FC<ClientBillboardProps> = ({ billboards }) => {
         </Button>
       </div>
       <Separator />
-      <DataTable columns={BillboardColumns} data={billboardsColumData} />
+      <DataTable
+        searchKey="label"
+        columns={BillboardColumns}
+        data={billboardsColumData}
+      />
+      <Separator />
+      <ApiAlertBar
+        variant="public"
+        title="GET"
+        descriptions={`${origin}/api/${param.storeId}/billboard`}
+      />
+      <ApiAlertBar
+        variant="public"
+        title="Get"
+        descriptions={`${origin}/api/${param.storeId}/billboard/{billboardId}`}
+      />
+      <ApiAlertBar
+        variant="admin"
+        title="Post"
+        descriptions={`${origin}/api/${param.storeId}/billboard`}
+      />
+      <ApiAlertBar
+        variant="admin"
+        title="delete"
+        descriptions={`${origin}/api/${param.storeId}/billboard/{billboardId}`}
+      />
+      <ApiAlertBar
+        variant="admin"
+        title="patch"
+        descriptions={`${origin}/api/${param.storeId}/billboard/{billboardId}`}
+      />
     </>
   );
 };

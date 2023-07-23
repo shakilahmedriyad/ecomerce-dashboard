@@ -1,6 +1,7 @@
 import prismadb from "@/lib/prismadb";
 
 import BillBoardsForm from "./components/BillBoardForm";
+import { Separator } from "@/components/ui/separator";
 
 const BillBoardsSetting = async ({
   params,
@@ -9,7 +10,7 @@ const BillBoardsSetting = async ({
 }) => {
   const billBoard = await prismadb.billboard.findFirst({
     where: {
-      storeId: params.billboardId,
+      id: params.billboardId,
     },
   });
   return (
