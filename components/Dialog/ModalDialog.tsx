@@ -11,8 +11,8 @@ export default function Dialog() {
     <StoreDialog
       isOpen={useStore.isOpen}
       onClose={useStore.onClose}
-      title="Hello hello"
-      description="hello hello"
+      title="Create a new Store"
+      description="Just create it ."
     >
       <StoreForm />
     </StoreDialog>

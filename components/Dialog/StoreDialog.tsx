@@ -23,6 +23,7 @@ const StoreDialog: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
+  description,
 }) => {
   const onChange = (open: boolean) => {
     if (!open) {
@@ -33,10 +34,8 @@ const StoreDialog: React.FC<ModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>create a store</DialogTitle>
-          <DialogDescription>
-            You have to create a store to continue
-          </DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {children}
       </DialogContent>
