@@ -2,34 +2,30 @@
 import { format } from "date-fns";
 import HeadingComponent from "@/components/HeadingComponent/HeadingComponent";
 import { Button } from "@/components/ui/button";
-import { Billboard, Category } from "@prisma/client";
+import { Size } from "@prisma/client";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { CategoryColumns, CategoryDataTableType } from "./column";
+import { SizeColumns, SizeDataTableType } from "./column";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/Table/DataTable";
 import ApiAlertBar from "@/components/AlertBar/AlertBar";
 import useOrigin from "@/hooks/use-Origin";
 
-interface CategoryType extends Category {
-  billboard: Billboard;
+interface ClientSizeProps {
+  sizes: Size[];
 }
 
-interface ClientCategoryProps {
-  categories: CategoryType[];
-}
-
-const ClientCategoryBoard: React.FC<ClientCategoryProps> = ({ categories }) => {
+const ClientSize: React.FC<ClientSizeProps> = ({ sizes }) => {
   const param = useParams();
   const router = useRouter();
   const origin = useOrigin();
 
-  const formatedCategory: CategoryDataTableType[] = categories.map((item) => {
+  const sizesColumData: SizeDataTableType[] = sizes.map((item) => {
     return {
       id: item.id,
       name: item.name,
-      BillboardName: item.billboard.label,
+      value: item.value,
       createdAt: format(item.createdAt, "MMMM do, yyyy"),
     };
   });
@@ -38,53 +34,47 @@ const ClientCategoryBoard: React.FC<ClientCategoryProps> = ({ categories }) => {
     <>
       <div className="flex justify-between items-center">
         <HeadingComponent
-          title={`Categories (${categories.length})`}
-          descriptons="Manage your shop Category"
+          title={`Sizes (${sizes.length})`}
+          descriptons="Manage your shop products"
         />
         <Button
           size={"sm"}
-          onClick={() => router.push(`/${param.storeId}/categories/new`)}
+          onClick={() => router.push(`/${param.storeId}/sizes/new`)}
         >
           <Plus className="mr-2 h-4 w-4 ml-0" />
           add new
         </Button>
       </div>
       <Separator />
-      <DataTable
-        searchKey="name"
-        columns={CategoryColumns}
-        data={formatedCategory}
-      />
+      <DataTable searchKey="name" columns={SizeColumns} data={sizesColumData} />
       <Separator />
-      <h2 className="text-3xl font-semibold">Api</h2>
-      <p>Call for Category Api </p>
       <ApiAlertBar
         variant="public"
         title="GET"
-        descriptions={`${origin}/api/${param.storeId}/category`}
+        descriptions={`${origin}/api/${param.storeId}/size`}
       />
       <ApiAlertBar
         variant="public"
         title="Get"
-        descriptions={`${origin}/api/${param.storeId}/category/{categoryId}`}
+        descriptions={`${origin}/api/${param.storeId}/size/{sizeId}`}
       />
       <ApiAlertBar
         variant="admin"
         title="Post"
-        descriptions={`${origin}/api/${param.storeId}/category`}
+        descriptions={`${origin}/api/${param.storeId}/size`}
       />
       <ApiAlertBar
         variant="admin"
         title="delete"
-        descriptions={`${origin}/api/${param.storeId}/category/{categoryId}`}
+        descriptions={`${origin}/api/${param.storeId}/size/{sizeId}`}
       />
       <ApiAlertBar
         variant="admin"
         title="patch"
-        descriptions={`${origin}/api/${param.storeId}/category/{categoryId}`}
+        descriptions={`${origin}/api/${param.storeId}/size/{sizeId}`}
       />
     </>
   );
 };
 
-export default ClientCategoryBoard;
+export default ClientSize;

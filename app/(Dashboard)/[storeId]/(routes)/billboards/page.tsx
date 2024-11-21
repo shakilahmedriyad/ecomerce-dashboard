@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import ClientBillboard from "./components/client";
 import prismadb from "@/lib/prismadb";
 
@@ -18,7 +17,6 @@ const BillBoards: React.FC<BillBoardProps> = async ({ params }) => {
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <ClientBillboard billboards={billboard} />
-        
       </div>
     </div>
   );

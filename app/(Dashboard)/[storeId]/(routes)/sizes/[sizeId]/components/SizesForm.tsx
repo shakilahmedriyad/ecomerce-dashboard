@@ -1,6 +1,6 @@
 "use client";
 import * as z from "zod";
-import { Billboard, Category } from "@prisma/client";
+import { Size } from "@prisma/client";
 import HeadingComponent from "@/components/HeadingComponent/HeadingComponent";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -14,70 +14,55 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import AlertModel from "@/components/Dialog/Alert-Model";
 
-interface CategoriesProps {
-  category: Category | null;
-  billboards: Billboard[] | null;
+interface SizesProps {
+  size: Size | null;
 }
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "requierd atleast 2 character" }),
-  billboardId: z.string(),
+  value: z.string().min(1),
 });
-type BillBoardsValue = z.infer<typeof formSchema>;
+type SizesValue = z.infer<typeof formSchema>;
 
-export default function BillBoardsForm({
-  category,
-  billboards,
-}: CategoriesProps) {
+export default function SizesForm({ size }: SizesProps) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const params = useParams();
   const router = useRouter();
 
-  const title = category ? "Update Category" : "Create Category";
-  const descriptions = category
-    ? "Update your Category to reflect on the page"
-    : "Create your Category for your shop";
+  const title = size ? "Update Size" : "Create Size";
+  const descriptions = size
+    ? "Update your bill board to reflect on the page"
+    : "Create your size for your shop";
 
-  const buttonText = category ? "save" : "create";
+  const buttonText = size ? "save" : "create";
 
-  const form = useForm<BillBoardsValue>({
+  const form = useForm<SizesValue>({
     resolver: zodResolver(formSchema),
-    defaultValues: category || {
+    defaultValues: size || {
       name: "",
-      billboardId: "",
+      value: "",
     },
   });
 
-  const handleSubmit = async (values: { name: string }) => {
+  const handleSubmit = async (values: SizesValue) => {
     try {
       setLoading(true);
-      if (category && params.billboardId !== "new") {
-        await axios.patch(
-          `/api/${params.storeId}/category/${category.id}`,
-          values
-        );
+      if (size && params.sizeId !== "new") {
+        await axios.patch(`/api/${params.storeId}/size/${size.id}`, values);
       } else {
-        await axios.post(`/api/${params.storeId}/category`, values);
+        await axios.post(`/api/${params.storeId}/size`, values);
       }
-      router.push(`/${params.storeId}/categories`);
+      router.push(`/${params.storeId}/sizes`);
       router.refresh();
     } catch (error) {
-      console.log("something went wrong at updating category name");
+      console.log("something went wrong at updating size name");
       setLoading(false);
     } finally {
       setLoading(false);
@@ -87,7 +72,7 @@ export default function BillBoardsForm({
   const handleDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/category/${category?.id}`);
+      await axios.delete(`/api/${params.storeId}/size/${size?.id}`);
       router.refresh();
       router.push("/");
     } catch (error) {
@@ -108,7 +93,7 @@ export default function BillBoardsForm({
       />
       <div className="flex items-center">
         <HeadingComponent title={title} descriptons={descriptions} />
-        {category && (
+        {size && (
           <Button
             disabled={loading}
             variant={"destructive"}
@@ -126,7 +111,7 @@ export default function BillBoardsForm({
           onSubmit={form.handleSubmit(handleSubmit)}
           className="space-y-6 w-full "
         >
-          <div className="grid grid-cols-4 w-full gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -135,8 +120,8 @@ export default function BillBoardsForm({
                   <FormLabel>Name</FormLabel>
                   <Input
                     disabled={loading}
-                    placeholder={category ? "update name" : "create a name"}
-                    className=" w-auto  col-start-1 col-end-2"
+                    placeholder={size ? "update size" : "create a size"}
+                    className=" w-auto col-start-1 col-end-2"
                     {...field}
                   />
                   <FormMessage />
@@ -145,25 +130,17 @@ export default function BillBoardsForm({
             />
             <FormField
               control={form.control}
-              name="billboardId"
+              name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billboards</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select Billboard" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {billboards?.map((billboard) => (
-                        <SelectItem key={billboard.id} value={billboard.id}>
-                          {billboard.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>value</FormLabel>
+                  <Input
+                    disabled={loading}
+                    placeholder={size ? "update value" : "create a value"}
+                    className=" w-auto col-start-1 col-end-2"
+                    {...field}
+                  />
+                  <FormMessage />
                 </FormItem>
               )}
             />

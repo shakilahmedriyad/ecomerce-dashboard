@@ -16,7 +16,7 @@ const BillBoards: React.FC<BillBoardProps> = async ({ params }) => {
       billboard: true,
     },
     orderBy: {
-      created_at: "desc",
+      createdAt: "desc",
     },
   });
 
