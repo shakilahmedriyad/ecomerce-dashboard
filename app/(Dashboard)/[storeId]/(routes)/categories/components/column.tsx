@@ -1,21 +1,21 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Action from "./action";
 
-export type BillboardDataTableType = {
+export type CategoryDataTableType = {
   id: string;
   name: string;
-  label: string;
+  BillboardName: string;
   createdAt: string;
 };
 
-export const BillboardColumns: ColumnDef<BillboardDataTableType>[] = [
+export const CategoryColumns: ColumnDef<CategoryDataTableType>[] = [
   {
     accessorKey: "name",
     header: "Name",
   },
   {
-    accessorKey: "billboardlabel",
-    header: "Billboard Label",
+    accessorKey: "BillboardName",
+    header: "Billboard Name",
   },
   {
     accessorKey: "createdAt",

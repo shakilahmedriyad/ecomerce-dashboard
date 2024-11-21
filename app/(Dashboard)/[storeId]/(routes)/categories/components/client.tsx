@@ -6,7 +6,7 @@ import { Billboard, Category } from "@prisma/client";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { BillboardColumns, BillboardDataTableType } from "./column";
+import { CategoryColumns, CategoryDataTableType } from "./column";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/Table/DataTable";
 import ApiAlertBar from "@/components/AlertBar/AlertBar";
@@ -25,11 +25,11 @@ const ClientCategoryBoard: React.FC<ClientCategoryProps> = ({ categories }) => {
   const router = useRouter();
   const origin = useOrigin();
 
-  const formatedCategory: BillboardDataTableType[] = categories.map((item) => {
+  const formatedCategory: CategoryDataTableType[] = categories.map((item) => {
     return {
       id: item.id,
       name: item.name,
-      label: item.billboard.label,
+      BillboardName: item.billboard.label,
       createdAt: format(item.created_at, "MMMM do, yyyy"),
     };
   });
@@ -51,8 +51,8 @@ const ClientCategoryBoard: React.FC<ClientCategoryProps> = ({ categories }) => {
       </div>
       <Separator />
       <DataTable
-        searchKey="label"
-        columns={BillboardColumns}
+        searchKey="name"
+        columns={CategoryColumns}
         data={formatedCategory}
       />
       <Separator />

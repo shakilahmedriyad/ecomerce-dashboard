@@ -132,7 +132,7 @@ export default function BillBoardsForm({ billboard }: BillBoardsProps) {
               </FormItem>
             )}
           />
-          <div className="grid gird-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="label"

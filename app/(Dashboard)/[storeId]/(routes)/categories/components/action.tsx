@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { BillboardDataTableType } from "./column";
+import { CategoryDataTableType } from "./column";
 import { Button } from "@/components/ui/button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 
 interface actionPropsType {
-  data: BillboardDataTableType;
+  data: CategoryDataTableType;
 }
 
 const Action = ({ data }: actionPropsType) => {
@@ -29,7 +29,7 @@ const Action = ({ data }: actionPropsType) => {
 
   const onDelete = async (id: string) => {
     try {
-      await axios.delete(`/api/${params.storeId}/billboard/${id}`);
+      await axios.delete(`/api/${params.storeId}/categories/${id}`);
       router.refresh();
     } catch (error) {
       toast.error("someting went wrong");
@@ -54,7 +54,7 @@ const Action = ({ data }: actionPropsType) => {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() =>
-            router.push(`/${params.storeId}/billboards/${data.id}`)
+            router.push(`/${params.storeId}/categories/${data.id}`)
           }
         >
           <Edit className="mr-2 w-4 h-4" />

@@ -1,6 +1,6 @@
 "use client";
 import * as z from "zod";
-import { Category } from "@prisma/client";
+import { Billboard, Category } from "@prisma/client";
 import HeadingComponent from "@/components/HeadingComponent/HeadingComponent";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import axios from "axios";
@@ -22,19 +30,25 @@ import AlertModel from "@/components/Dialog/Alert-Model";
 
 interface CategoriesProps {
   category: Category | null;
+  billboards: Billboard[] | null;
 }
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "requierd atleast 2 character" }),
+  billboardId: z.string(),
 });
 type BillBoardsValue = z.infer<typeof formSchema>;
 
-export default function BillBoardsForm({ category }: CategoriesProps) {
+export default function BillBoardsForm({
+  category,
+  billboards,
+}: CategoriesProps) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const params = useParams();
   const router = useRouter();
-
+  console.log(billboards);
+  console.log(category);
   const title = category ? "Update Category" : "Create Category";
   const descriptions = category
     ? "Update your Category to reflect on the page"
@@ -46,6 +60,7 @@ export default function BillBoardsForm({ category }: CategoriesProps) {
     resolver: zodResolver(formSchema),
     defaultValues: category || {
       name: "",
+      billboardId: "",
     },
   });
 
@@ -112,7 +127,7 @@ export default function BillBoardsForm({ category }: CategoriesProps) {
           onSubmit={form.handleSubmit(handleSubmit)}
           className="space-y-6 w-full "
         >
-          <div className="grid gird-cols-3 gap-8">
+          <div className="grid grid-cols-4 w-full gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -121,11 +136,35 @@ export default function BillBoardsForm({ category }: CategoriesProps) {
                   <FormLabel>Name</FormLabel>
                   <Input
                     disabled={loading}
-                    placeholder={category ? "update label" : "create a label"}
-                    className=" w-auto col-start-1 col-end-2"
+                    placeholder={category ? "update name" : "create a name"}
+                    className=" w-auto  col-start-1 col-end-2"
                     {...field}
                   />
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="billboardId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billboards</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select Billboard" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {billboards?.map((billboard) => (
+                        <SelectItem key={billboard.id} value={billboard.id}>
+                          {billboard.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />
