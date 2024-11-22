@@ -1,8 +1,6 @@
 "use client";
-import { format } from "date-fns";
 import HeadingComponent from "@/components/HeadingComponent/HeadingComponent";
 import { Button } from "@/components/ui/button";
-import { Category, Color, Product, Size } from "@prisma/client";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
