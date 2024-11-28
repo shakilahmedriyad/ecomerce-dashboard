@@ -2,6 +2,27 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
+export async function GET(
+  req: Request,
+  { params }: { params: { storeId: string; productId: string } }
+) {
+  try {
+    if (!params.storeId || !params.productId) {
+      return NextResponse.json({
+        status: 401,
+        message: "storeId and colorId required",
+      });
+    }
+    const color = await prismadb.product.findFirst({
+      where: { storeId: params.storeId, id: params.productId },
+    });
+    return NextResponse.json(color);
+  } catch (err) {
+    console.log(err);
+  }
+  return NextResponse.json("something went wrong");
+}
+
 export async function PATCH(
   req: Request,
   { params }: { params: { storeId: string; productId: string } }

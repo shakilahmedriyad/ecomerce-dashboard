@@ -53,6 +53,8 @@ const ClientBillboard: React.FC<ClientBillboardProps> = ({ billboards }) => {
         data={billboardsColumData}
       />
       <Separator />
+      <h2 className="text-3xl font-semibold">Api</h2>
+      <p>Call for Billboards Api </p>
       <ApiAlertBar
         variant="public"
         title="GET"

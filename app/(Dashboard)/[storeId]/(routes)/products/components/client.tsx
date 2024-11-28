@@ -53,6 +53,8 @@ const ClientProduct: React.FC<ClientProductProps> = ({ products }) => {
         data={productsColumnData}
       />
       <Separator />
+      <h2 className="text-3xl font-semibold">Api</h2>
+      <p>Call for Products Api </p>
       <ApiAlertBar
         variant="public"
         title="GET"

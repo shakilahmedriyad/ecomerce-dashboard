@@ -8,6 +8,7 @@ interface BillBoardProps {
 }
 
 const BillBoards: React.FC<BillBoardProps> = async ({ params }) => {
+  
   const products = await prismadb.product.findMany({
     where: {
       storeId: params.storeId,
@@ -22,6 +23,7 @@ const BillBoards: React.FC<BillBoardProps> = async ({ params }) => {
     },
   });
 
+  
   const formatedProductData = products?.map((item) => {
     return {
       id: item.id,

@@ -52,6 +52,8 @@ const ClientColor: React.FC<ClientColorProps> = ({ colors }) => {
         data={colorsColumData}
       />
       <Separator />
+      <h2 className="text-3xl font-semibold">Api</h2>
+      <p>Call for Colors Api </p>
       <ApiAlertBar
         variant="public"
         title="GET"

@@ -48,6 +48,8 @@ const ClientSize: React.FC<ClientSizeProps> = ({ sizes }) => {
       <Separator />
       <DataTable searchKey="name" columns={SizeColumns} data={sizesColumData} />
       <Separator />
+      <h2 className="text-3xl font-semibold">Api</h2>
+      <p>Call for Sizes Api </p>
       <ApiAlertBar
         variant="public"
         title="GET"

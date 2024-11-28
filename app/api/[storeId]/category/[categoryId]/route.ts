@@ -1,6 +1,27 @@
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
+export async function GET(
+  req: Request,
+  { params }: { params: { storeId: string; categoryId: string } }
+) {
+  try {
+    if (!params.storeId || !params.categoryId) {
+      return NextResponse.json({
+        status: 401,
+        message: "storeId and categoryId required",
+      });
+    }
+    const category = await prismadb.category.findFirst({
+      where: { storeId: params.storeId, id: params.categoryId },
+    });
+    return NextResponse.json(category);
+  } catch (err) {
+    console.log(err);
+  }
+  return NextResponse.json("something went wrong");
+}
+
 export async function PATCH(
   req: Request,
   { params }: { params: { storeId: string; categoryId: string } }
