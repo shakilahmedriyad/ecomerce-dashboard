@@ -1,14 +1,13 @@
-import ClientBillboard from "./components/client";
+import ClientProduct from "./components/client";
 import prismadb from "@/lib/prismadb";
 import { format } from "date-fns";
-interface BillBoardProps {
+interface ProductProps {
   params: {
     storeId: string;
   };
 }
 
-const BillBoards: React.FC<BillBoardProps> = async ({ params }) => {
-  
+const Products: React.FC<ProductProps> = async ({ params }) => {
   const products = await prismadb.product.findMany({
     where: {
       storeId: params.storeId,
@@ -23,7 +22,6 @@ const BillBoards: React.FC<BillBoardProps> = async ({ params }) => {
     },
   });
 
-  
   const formatedProductData = products?.map((item) => {
     return {
       id: item.id,
@@ -41,10 +39,10 @@ const BillBoards: React.FC<BillBoardProps> = async ({ params }) => {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <ClientBillboard products={formatedProductData} />
+        <ClientProduct products={formatedProductData} />
       </div>
     </div>
   );
 };
 
-export default BillBoards;
+export default Products;

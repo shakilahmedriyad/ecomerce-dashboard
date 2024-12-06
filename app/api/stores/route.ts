@@ -1,6 +1,17 @@
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { json } from "stream/consumers";
+
+export async function GET(_req: Request) {
+  try {
+    const store = await prismadb.store.findMany({});
+    return NextResponse.json(store);
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(err);
+  }
+}
 
 export async function POST(req: Request) {
   try {
