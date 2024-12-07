@@ -95,6 +95,10 @@ export async function GET(
       where: {
         storeId: params.storeId,
       },
+      include: {
+        image: true,
+        category: true,
+      },
     });
     return NextResponse.json(product);
   } catch (error) {

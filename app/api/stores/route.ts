@@ -1,7 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { json } from "stream/consumers";
 
 export async function GET(_req: Request) {
   try {
